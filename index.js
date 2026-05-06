@@ -111,12 +111,18 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         const url = memes[Math.floor(Math.random() * memes.length)];
 
         try {
+            console.log(`[VOZ] ${username} entró. Intentando mandar meme al canal ${ID_CANAL}`);
             const canal = await client.channels.fetch(ID_CANAL);
             if (canal) {
                 const embed = new EmbedBuilder().setImage(url).setColor(0x5865F2);
-                canal.send({ content: `👋 <@${userId}>`, embeds: [embed] });
+                await canal.send({ content: `👋 <@${userId}>`, embeds: [embed] });
+                console.log(`[VOZ] Meme enviado para ${username}`);
+            } else {
+                console.log(`[VOZ] Canal no encontrado: ${ID_CANAL}`);
             }
-        } catch (_) {}
+        } catch (err) {
+            console.error(`[VOZ] Error al mandar meme:`, err.message);
+        }
     }
 
     if (salio) {

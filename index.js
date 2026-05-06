@@ -89,7 +89,7 @@ function hoy() {
 }
 
 // --- RASTREO DE VOZ ---
-client.on('voiceStateUpdate', (oldState, newState) => {
+client.on('voiceStateUpdate', async (oldState, newState) => {
     const userId = oldState.member?.id || newState.member?.id;
     const username = oldState.member?.user.username || newState.member?.user.username;
     if (!userId) return;

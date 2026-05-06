@@ -99,6 +99,24 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 
     if (entro) {
         enVoz.set(userId, { username, timestamp: Date.now() });
+
+        const nombre = encodeURIComponent(username.replace(/-/g, '--'));
+        const memes = [
+            `https://api.memegen.link/images/buzz/Hola,_${nombre}!/Por_fin_apareces.png`,
+            `https://api.memegen.link/images/doge/wow._${nombre}_existe/much_online._very_here.png`,
+            `https://api.memegen.link/images/aag/${nombre}_se_conectó/llamen_a_los_medios.png`,
+            `https://api.memegen.link/images/oprah/tú_existes,_${nombre}?/TODOS_RECIBEN_UN_SUSTO.png`,
+            `https://api.memegen.link/images/fine/Todo_normal/Excepto_que_apareció_${nombre}.png`,
+        ];
+        const url = memes[Math.floor(Math.random() * memes.length)];
+
+        try {
+            const canal = await client.channels.fetch(ID_CANAL);
+            if (canal) {
+                const embed = new EmbedBuilder().setImage(url).setColor(0x5865F2);
+                canal.send({ content: `👋 <@${userId}>`, embeds: [embed] });
+            }
+        } catch (_) {}
     }
 
     if (salio) {

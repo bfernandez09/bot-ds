@@ -126,6 +126,30 @@ client.on('voiceStateUpdate', (oldState, newState) => {
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
+    // !hola @usuario
+    if (message.content.startsWith('!hola')) {
+        const mencionado = message.mentions.users.first();
+        if (!mencionado) return message.reply('Usa `!hola @usuario`');
+
+        const nombre = encodeURIComponent(mencionado.username.replace(/-/g, '--'));
+
+        const memes = [
+            `https://api.memegen.link/images/buzz/Hola,_${nombre}!/Por_fin_apareces.png`,
+            `https://api.memegen.link/images/doge/wow._${nombre}_existe/much_online._very_here.png`,
+            `https://api.memegen.link/images/aag/${nombre}_se_conectó/llamen_a_los_medios.png`,
+            `https://api.memegen.link/images/oprah/tú_existes,_${nombre}?/TODOS_RECIBEN_UN_SUSTO.png`,
+            `https://api.memegen.link/images/fine/Todo_normal/Excepto_que_apareció_${nombre}.png`,
+        ];
+
+        const url = memes[Math.floor(Math.random() * memes.length)];
+
+        const embed = new EmbedBuilder()
+            .setImage(url)
+            .setColor(0x5865F2);
+
+        return message.reply({ content: `👋 <@${mencionado.id}>`, embeds: [embed] });
+    }
+
     // !lastseen @usuario
     if (message.content.startsWith('!lastseen')) {
         const mencionado = message.mentions.users.first();
